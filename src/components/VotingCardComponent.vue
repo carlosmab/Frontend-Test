@@ -194,6 +194,7 @@ export default {
   position: relative;
   height: 300px;
   width: 320px;
+  min-width: 320px;
   background-size: cover;
 }
 

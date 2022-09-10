@@ -24,11 +24,12 @@ export default {
 <template>
   <div>
     <h3 class="previous-rulings__title">Previous Rulings</h3>
-    <div class="previos-rulings__container">
+    <div class="previous-rulings__container">
       <voting-card-component
         v-for="famousPerson in famousPeople"
         :famousPerson="famousPerson"
         :key="famousPerson.id"
+        class="card"
       ></voting-card-component>
     </div>
   </div>
@@ -40,9 +41,9 @@ export default {
   }
 
   .previous-rulings__container {
-    width: auto;
     display: flex;
-    flex-direction: ro;
     flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 10px;
   }
 </style>
