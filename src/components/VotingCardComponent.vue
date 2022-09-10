@@ -1,13 +1,53 @@
 <script>
+import moment from "moment";
+
 export default {
   props: ["famousPerson"],
-  mounted() {
-    this.date
-  },  
   data() {
     return {
+      famousPersonArray: this.famousPerson,
+      relativeTime: moment(this.famousPerson.lastUpdated).fromNow(),
+      voted: false,
+      positiveSelected: false,
+      negativeSelected: false,
     };
   },
+  methods: {
+    voteNegative() {
+      this.positiveSelected = false;
+      this.negativeSelected = true;
+    },
+    votePositive() {
+      this.positiveSelected = true;
+      this.negativeSelected = false;
+    },
+    submitVote() {
+      if (!this.voted) {
+        console.log("Save vote to database");
+        this.positiveSelected = false;
+        this.negativeSelected = false;
+      }
+      this.voted = !this.voted;
+    },
+    calculatePercents() {
+      const totalVotes = parseInt(this.famousPersonArray.votes.negative) + parseInt(this.famousPersonArray.votes.positive);
+      const negativePercent = totalVotes > 0 ? parseInt(100 * this.famousPersonArray.votes.negative / totalVotes) : 50;
+      const positivePercent = totalVotes > 0 ? 100 - negativePercent : 0;
+      return {
+        negative: negativePercent,
+        positive: positivePercent,
+      }
+    },
+  },
+  computed: {
+    votesPercents() {
+      return this.calculatePercents();
+    },
+    noVoteSelected() {
+      return !(this.negativeSelected || this.positiveSelected || this.voted);
+    },
+  }
+
 };
 </script>
 
@@ -17,39 +57,40 @@ export default {
       <div class="voting-card__title-thumb">
         <img src="assets/img/thumbs-up.svg" alt="thumbs up" />
       </div>
-      <h2 class="voting-card__title">{{ famousPerson.name }}</h2>
+      <h2 class="voting-card__title">{{ famousPersonArray.name }}</h2>
     </div>
     <div class="voting-card__content">
       <p class="voting-card__description">
-        {{ famousPerson.description }}
+        {{ famousPersonArray.description }}
       </p>
-      <p class="voting-card__date">24 days ago in Bussiness</p>
+      <p v-if="!voted" class="voting-card__relative-time">{{ relativeTime + " in " }}<span>{{ famousPersonArray.category }}</span></p>
+      <p v-else class="voting-card__relative-time">Thank you for your vote!</p>
       <div class="voting-card__buttons">
-        <button class="icon-button" aria-label="thumbs up">
+        <button v-if="!voted" class="icon-button" :class="{ selected: positiveSelected}" aria-label="thumbs up" @click="votePositive">
           <img src="assets/img/thumbs-up.svg" alt="thumbs up" />
         </button>
-        <button class="icon-button" aria-label="thumbs down">
+        <button v-if="!voted" class="icon-button" :class="{ selected: negativeSelected}" aria-label="thumbs down" @click="voteNegative">
           <img src="assets/img/thumbs-down.svg" alt="thumbs down" />
         </button>
-        <button class="voting-card__submit">
-          Vote Now
+        <button class="voting-card__submit" :disabled="noVoteSelected" @click="submitVote">
+          {{ voted ? "Vote Again" : "Vote Now" }}
         </button>
       </div>
     </div>
     <div class="voting-card__gauge">
-      <div class="voting-gauge__left">
+      <div class="voting-gauge__left" :style="{width: votesPercents.positive + '%'}">
         <img class="voting-gauge__icon" src="assets/img/thumbs-up.svg" alt="thumbs up" />
-        <span class="voting-gauge__number">50%</span>
+        <span class="voting-gauge__number">{{ votesPercents.positive }}%</span>
       </div>
-      <div class="voting-gauge__right">
-        <span class="voting-gauge__number">50%</span>
+      <div class="voting-gauge__right" :style="{width: votesPercents.negative + '%'}">
+        <span class="voting-gauge__number">{{ votesPercents.negative }}%</span>
         <img class="voting-gauge__icon"  src="assets/img/thumbs-down.svg" alt="thumbs down" />
       </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .voting-card {
   position: relative;
   height: 300px;
@@ -116,10 +157,14 @@ export default {
   overflow: hidden;
 }
 
-.voting-card__date {
+.voting-card__relative-time {
   text-align: end;
   font-size: 1rem;
   margin-bottom: 1rem;
+}
+
+.voting-card__relative-time > span {
+  text-transform: capitalize;
 }
 
 .voting-card__buttons {
@@ -132,6 +177,16 @@ export default {
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 1rem;
+}
+
+.selected {
+  border: solid 1px var(--color-white);
+}
+.selected[aria-label="thumbs up"] {
+  background-color: rgba(var(--color-green-positive), 1);
+}
+.selected[aria-label="thumbs down"] {
+  background-color: rgba(var(--color-yellow-negative), 1);
 }
 
 .voting-card__buttons > .icon-button > img {
@@ -150,6 +205,10 @@ export default {
   padding-left: 2rem;
   padding-right: 2rem;
   font-size: 1.25rem;
+}
+
+.voting-card__submit:active {
+  background-color: var(--color-dark-background);
 }
 
 .voting-card__gauge {

@@ -1,41 +1,22 @@
 # test-frontend
+### App Installation
+    - npm install
+    - npm run dev
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+### Structure
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- src   
+    - assets: images, custom css
+    - components: Vue components
+    - config: database configuration
+    - services: database connection
+    - models: methods to access database collections
+    - App.vue: Origin component
+    - main.js: App declarations
 
-## Customize configuration
+## Special modules:
+    - firebase: persistent data store
+    - moment.js: relative time 
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
