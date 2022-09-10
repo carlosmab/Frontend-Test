@@ -19,4 +19,3 @@
     - firebase: persistent data store
     - moment.js: relative time 
 
-

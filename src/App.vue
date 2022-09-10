@@ -8,27 +8,41 @@ export default {
   },
   mounted() {
     fetchFamousPeople()
-      .then( (famousPeople) => {
-        console.log(famousPeople);
+      .then((famousPeople) => {
         this.famousPeople = famousPeople;
       })
-      .catch( (error) => console.log(error) );
+      .catch((error) => console.log(error));
   },
   data() {
     return {
       famousPeople: [],
-      message: "Hello Vue",
     };
   },
-  methods: {
-  }
 };
 </script>
 
 <template>
   <div>
-    <voting-card-component v-for="famousPerson in famousPeople" :famousPerson="famousPerson" :key="famousPerson.id"></voting-card-component>
+    <h3 class="previous-rulings__title">Previous Rulings</h3>
+    <div class="previos-rulings__container">
+      <voting-card-component
+        v-for="famousPerson in famousPeople"
+        :famousPerson="famousPerson"
+        :key="famousPerson.id"
+      ></voting-card-component>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .previous-rulings__title {
+    font-size: 24px;
+  }
+
+  .previous-rulings__container {
+    width: auto;
+    display: flex;
+    flex-direction: ro;
+    flex-wrap: nowrap;
+  }
+</style>
