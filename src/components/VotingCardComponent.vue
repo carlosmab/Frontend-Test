@@ -1,9 +1,11 @@
 <script>
 export default {
-  props: ["person"],
+  props: ["famousPerson"],
+  mounted() {
+    this.date
+  },  
   data() {
     return {
-      count: 0,
     };
   },
 };
@@ -15,12 +17,11 @@ export default {
       <div class="voting-card__title-thumb">
         <img src="assets/img/thumbs-up.svg" alt="thumbs up" />
       </div>
-      <h2 class="voting-card__title">Kanye West</h2>
+      <h2 class="voting-card__title">{{ famousPerson.name }}</h2>
     </div>
     <div class="voting-card__content">
       <p class="voting-card__description">
-        He’s talking tough on clergy sexual abuse, or is he just another pervert
-        protector?
+        {{ famousPerson.description }}
       </p>
       <p class="voting-card__date">24 days ago in Bussiness</p>
       <div class="voting-card__buttons">

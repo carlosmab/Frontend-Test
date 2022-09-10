@@ -1,22 +1,33 @@
 <script>
-import VotingCard from "./components/VotingCardComponent.vue";
+import { fetchFamousPeople } from "./models/famousPeople.model";
+import VotingCardComponent from "./components/VotingCardComponent.vue";
 
 export default {
   components: {
-    VotingCard,
+    VotingCardComponent,
   },
-
+  mounted() {
+    fetchFamousPeople()
+      .then( (famousPeople) => {
+        console.log(famousPeople);
+        this.famousPeople = famousPeople;
+      })
+      .catch( (error) => console.log(error) );
+  },
   data() {
     return {
+      famousPeople: [],
       message: "Hello Vue",
     };
   },
+  methods: {
+  }
 };
 </script>
 
 <template>
   <div>
-    <voting-card></voting-card>
+    <voting-card-component v-for="famousPerson in famousPeople" :famousPerson="famousPerson" :key="famousPerson.id"></voting-card-component>
   </div>
 </template>
 
