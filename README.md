@@ -13,7 +13,7 @@ The test was developed using:
     > npm run dev
 
 
-### Folder Structure
+## 2. Folder Structure
 
 - src   
     - assets: 
@@ -36,7 +36,7 @@ The test was developed using:
     - main.js: 
         _Creating vue instance_ 
 
-## 2. Special modules:
+## 3. Special modules:
 - **firebase:** _Persistent data store_
 - **moment.js:** _Relative time_
 
