@@ -525,6 +525,14 @@ export default {
     min-width: 350px;
     background-size: cover;
   }
+
+  .voting-card__header {
+    bottom: 50%;
+  }
+
+  .voting-card__content {
+    top: 50%;
+  }
   .voting-card-list__gradient {
     width: 80%;
   }
@@ -561,7 +569,8 @@ export default {
 }
 
 @media all and (min-width: 1100px) {
-  .voting-card-list__gradient {
+
+   .voting-card-list__gradient {
     width: 80%;
   }
 
