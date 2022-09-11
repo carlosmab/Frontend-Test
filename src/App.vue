@@ -12,6 +12,8 @@ export default {
         this.famousPeople = famousPeople;
       })
       .catch((error) => console.log(error));
+    // onResize listener to change layout on Mobile
+    window.addEventListener('resize', this.onResize)
   },
   data() {
     return {
@@ -27,6 +29,11 @@ export default {
     changeLayout(type) {
       this.selectedLayout = type;
       this.hideOptions = true;
+    },
+    onResize() {
+      if (window.innerWidth < 500) {
+        this.selectedLayout = "Grid";
+      }
     },
   },
 };

@@ -135,7 +135,7 @@ export default {
       >
         <img
           class="voting-card__title-icon"
-          src="assets/img/thumbs-up.svg"
+          src="/assets/img/thumbs-up.svg"
           alt="thumbs up"
         />
       </div>
@@ -149,7 +149,7 @@ export default {
       >
         <img
           class="voting-card__title-icon"
-          src="assets/img/thumbs-down.svg"
+          src="/assets/img/thumbs-down.svg"
           alt="thumbs down"
         />
       </div>
@@ -197,7 +197,7 @@ export default {
             aria-label="thumbs up"
             @click="votePositive"
           >
-            <img src="assets/img/thumbs-up.svg" alt="thumbs up" />
+            <img src="/assets/img/thumbs-up.svg" alt="thumbs up" />
           </button>
           <button
             v-if="!voted"
@@ -206,7 +206,7 @@ export default {
             aria-label="thumbs down"
             @click="voteNegative"
           >
-            <img src="assets/img/thumbs-down.svg" alt="thumbs down" />
+            <img src="/assets/img/thumbs-down.svg" alt="thumbs down" />
           </button>
           <button
             class="voting-card__submit"
@@ -230,7 +230,7 @@ export default {
       >
         <img
           class="voting-gauge__icon"
-          src="assets/img/thumbs-up.svg"
+          src="/assets/img/thumbs-up.svg"
           alt="thumbs up"
         />
         <span class="voting-gauge__number">{{ votesPercents.positive }}%</span>
@@ -242,7 +242,7 @@ export default {
         <span class="voting-gauge__number">{{ votesPercents.negative }}%</span>
         <img
           class="voting-gauge__icon"
-          src="assets/img/thumbs-down.svg"
+          src="/assets/img/thumbs-down.svg"
           alt="thumbs down"
         />
       </div>

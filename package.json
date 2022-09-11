@@ -11,9 +11,7 @@
   "dependencies": {
     "firebase": "^9.9.4",
     "moment": "^2.29.4",
-    "pinia": "^2.0.21",
-    "vue": "^3.2.38",
-    "vuefire": "^2.2.5"
+    "vue": "^3.2.38"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
