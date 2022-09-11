@@ -157,6 +157,9 @@ export default {
  }
 
  @media all and (min-width: 768px) {
+  .previous-rulings__title {
+    font-size: 45px;
+  }
   .previous-rulings__container {
     gap: 20px;
     justify-content: center;
