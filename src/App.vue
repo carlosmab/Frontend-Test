@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       famousPeople: [],
-      selectedLayout: "List",
+      selectedLayout: "Grid",
       hideOptions: true,
     };
   },
@@ -87,21 +87,26 @@ export default {
 
 .previous-rulings__container {
   display: flex;
-  flex-direction: nowrap;
   overflow-x: auto;
   gap: 10px;
+  font-size: 12px;
 }
 
 .previous-rulings__container-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-size: 12px;
+}
+
+.previous-rulings__menu {
+  display: none;
 }
 
 .previous-rulings__menu-options {
   display: block;
   position: absolute;
-  z-index: 10;
+  z-index: 100;
 }
 
 .previous-rulings__menu-button,
@@ -131,4 +136,43 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+
+ /* Tablets Size */
+ @media all and (min-width: 500px) {
+  .previous-rulings__container {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: unset;
+    justify-content: center;
+    gap: 20px;
+  }
+  .previous-rulings__menu {
+    display: block;
+  }
+
+  .previous-rulings__menu-button,
+  .previous-rulings__menu-option {
+    font-size: 1rem;
+  }
+ }
+
+ @media all and (min-width: 768px) {
+  .previous-rulings__container {
+    gap: 20px;
+    justify-content: center;
+  }
+  .previous-rulings__container-list {
+    gap: 20px;
+    justify-content: center;
+    font-size: 14px;
+  }
+ }
+
+ 
+ @media all and (min-width: 1100px) {
+  .previous-rulings__container {
+    gap: 25px;
+    justify-content: space-between;
+  }
+ }
 </style>

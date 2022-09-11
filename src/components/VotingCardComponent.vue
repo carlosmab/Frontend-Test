@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <script>
-import { updateFamousPersonVotes } from "../models/famousPeople.model"
+import { updateFamousPersonVotes } from "../models/famousPeople.model";
 import moment from "moment";
 
 export default {
@@ -62,7 +62,8 @@ export default {
         });
     },
     calculatePercents() {
-      const totalVotes = this.famousPerson.votes.negative + this.famousPerson.votes.positive;
+      const totalVotes =
+        this.famousPerson.votes.negative + this.famousPerson.votes.positive;
       const negativePercent =
         totalVotes > 0
           ? parseInt((100 * this.famousPerson.votes.negative) / totalVotes)
@@ -87,13 +88,13 @@ export default {
           "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)), url('../assets/img/" +
           this.famousPerson.picture +
           "')"
-        )
-      } 
+        );
+      }
       return (
         "linear-gradient(to left, rgba(136, 136, 136, 1), rgba(0, 0, 0, 0)), url('../assets/img/" +
         this.famousPerson.picture +
         "')"
-      )
+      );
     },
     relativeTime() {
       return moment(this.famousPerson.lastUpdated).fromNow();
@@ -106,7 +107,7 @@ export default {
         : "Vote Now";
     },
     isGrid() {
-      return this.layout == 'Grid';
+      return this.layout == "Grid";
     },
   },
 };
@@ -118,10 +119,10 @@ export default {
     :style="{ backgroundImage: backgroundImage }"
   >
     <div v-if="!isGrid" class="voting-card-list__gradient"></div>
-    <div class="voting-card__header">
+    <div :class="{ 'voting-card__header': isGrid, 'voting-card-list__header': !isGrid }">
       <div
         v-if="votesPercents.negative < votesPercents.positive"
-        class="voting-card__title-thumb"
+        :class="{ 'voting-card__title-thumb': isGrid, 'voting-card-list__title-thumb': !isGrid }"
         aria-label="thumbs up"
       >
         <img
@@ -130,50 +131,52 @@ export default {
           alt="thumbs up"
         />
       </div>
-      <div v-else class="voting-card__title-thumb" aria-label="thumbs down">
+      <div v-else :class="{ 'voting-card__title-thumb': isGrid, 'voting-card-list__title-thumb': !isGrid }" aria-label="thumbs down">
         <img
           class="voting-card__title-icon"
           src="assets/img/thumbs-down.svg"
           alt="thumbs down"
         />
       </div>
-      <h2 class="voting-card__title">{{ famousPerson.name }}</h2>
+      <h2 :class="{ 'voting-card__title': isGrid, 'voting-card-list__title': !isGrid }">{{ famousPerson.name }}</h2>
     </div>
-    <div class="voting-card__content">
-      <p class="voting-card__description">
+    <div :class="{ 'voting-card__content': isGrid, 'voting-card-list__content': !isGrid }">
+      <p :class="{ 'voting-card__description': isGrid, 'voting-card-list__description': !isGrid }">
         {{ famousPerson.description }}
       </p>
-      <p v-if="!voted && !voting" class="voting-card__relative-time">
-        {{ relativeTime + " in " }}<span>{{ famousPerson.category }}</span>
-      </p>
-      <p v-else-if="voting" class="voting-card__relative-time">Voting...</p>
-      <p v-else class="voting-card__relative-time">Thank you for your vote!</p>
-      <div class="voting-card__buttons">
-        <button
-          v-if="!voted"
-          class="icon-button"
-          :class="{ selected: positiveSelected }"
-          aria-label="thumbs up"
-          @click="votePositive"
-        >
-          <img src="assets/img/thumbs-up.svg" alt="thumbs up" />
-        </button>
-        <button
-          v-if="!voted"
-          class="icon-button"
-          :class="{ selected: negativeSelected }"
-          aria-label="thumbs down"
-          @click="voteNegative"
-        >
-          <img src="assets/img/thumbs-down.svg" alt="thumbs down" />
-        </button>
-        <button
-          class="voting-card__submit"
-          :disabled="noVoteSelected"
-          @click="submitVote"
-        >
-          {{ submitVoteText }}
-        </button>
+      <div :class="{ 'voting-card__voting-area': isGrid, 'voting-card-list__voting-area': !isGrid }">
+        <p v-if="!voted && !voting" class="voting-card__relative-time">
+          {{ relativeTime + " in " }}<span>{{ famousPerson.category }}</span>
+        </p>
+        <p v-else-if="voting" class="voting-card__relative-time">Voting...</p>
+        <p v-else class="voting-card__relative-time">Thank you for your vote!</p>
+        <div class="voting-card__buttons">
+          <button
+            v-if="!voted"
+            class="icon-button"
+            :class="{ selected: positiveSelected }"
+            aria-label="thumbs up"
+            @click="votePositive"
+          >
+            <img src="assets/img/thumbs-up.svg" alt="thumbs up" />
+          </button>
+          <button
+            v-if="!voted"
+            class="icon-button"
+            :class="{ selected: negativeSelected }"
+            aria-label="thumbs down"
+            @click="voteNegative"
+          >
+            <img src="assets/img/thumbs-down.svg" alt="thumbs down" />
+          </button>
+          <button
+            class="voting-card__submit"
+            :disabled="noVoteSelected"
+            @click="submitVote"
+          >
+            {{ submitVoteText }}
+          </button>
+        </div>
       </div>
     </div>
     <div class="voting-card__gauge">
@@ -219,6 +222,7 @@ export default {
   min-width: 320px;
   background-repeat: no-repeat;
   background-position-y: center;
+  background-position-x: -4%;
   background-size: 267px 267px;
 }
 
@@ -227,40 +231,55 @@ export default {
   right: 0;
   height: 170px;
   width: 76%;
-  background: linear-gradient(to left, rgba(51, 51, 51, 0.6), rgba(102, 102, 102, 1), rgba(136, 136, 136, 1))
+  background: linear-gradient(
+    to left,
+    rgba(51, 51, 51, 0.6),
+    rgba(102, 102, 102, 1),
+    rgba(136, 136, 136, 1)
+  );
 }
- 
-.voting-card__header {
+
+.voting-card__header,
+.voting-card-list__header
+ {
   position: absolute;
   bottom: 58%;
   display: flex;
   align-items: end;
-  padding-right: 2rem;
+  padding-right: 2em;
 }
 
-.voting-card__title-thumb {
+.voting-card__title-thumb,
+.voting-card-list__title-thumb
+ {
   display: flex;
   left: 0;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  max-width: 3rem;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  max-width: 3em;
   align-items: center;
-  height: 2.5rem;
+  height: 2.5em;
 }
 
-.voting-card__title-thumb[aria-label="thumbs up"] {
+.voting-card__title-thumb[aria-label="thumbs up"],
+.voting-card-list__title-thumb[aria-label="thumbs up"] 
+{
   background-color: rgba(var(--color-green-positive), 1);
 }
 
-.voting-card__title-thumb[aria-label="thumbs down"] {
+.voting-card__title-thumb[aria-label="thumbs down"],
+.voting-card-list__title-thumb[aria-label="thumbs down"] 
+{
   background-color: rgba(var(--color-yellow-negative), 1);
 }
 
-.voting-card__title {
+.voting-card__title,
+.voting-card-list__title
+ {
   display: -webkit-box;
-  margin-bottom: -0.5rem;
+  margin-bottom: -0.2em;
   color: var(--color-white);
-  font-size: 2.6rem;
+  font-size: 2.6em;
   font-weight: 400;
   line-height: normal;
   text-overflow: ellipsis;
@@ -274,19 +293,34 @@ export default {
   top: 42%;
   left: 0%;
   width: 100%;
-  padding-left: 3.5rem;
-  padding-right: 3rem;
+  padding-left: 3.5em;
+  padding-right: 3em;
   color: var(--color-white);
   -webkit-box-sizing: border-box;
   z-index: 10;
 }
 
+.voting-card-list__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 52px;
+  padding-left: 150px;
+  padding-right: 10px;
+  color: var(--color-white);
+  -webkit-box-sizing: border-box;
+  z-index: 10;
+  display: flex;
+  align-items: bottom;
+}
+
 .voting-card__description {
   display: -webkit-box;
   overflow: hidden;
-  margin: 1rem 0;
+  margin: 1em 0;
   -webkit-box-orient: vertical;
-  font-size: 1.25rem;
+  font-size: 1.25em;
   font-weight: 300;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -294,10 +328,30 @@ export default {
   overflow: hidden;
 }
 
+.voting-card-list__description {
+  display: -webkit-box;
+  overflow: hidden;
+  width: 60%;
+  margin: 1em 0;
+  -webkit-box-orient: vertical;
+  font-size: 1.25em;
+  font-weight: 300;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.voting-card-list__voting-area {
+  position: absolute;
+  top: -5px;
+  right: 15px;
+}
+
 .voting-card__relative-time {
   text-align: end;
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 1em;
+  margin-bottom: 1em;
 }
 
 .voting-card__relative-time > span {
@@ -311,9 +365,9 @@ export default {
 }
 
 .voting-card__buttons > .icon-button {
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 1rem;
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: 1em;
 }
 
 .selected {
@@ -327,21 +381,21 @@ export default {
 }
 
 .voting-card__buttons > .icon-button > img {
-  max-width: 1.25rem;
+  max-width: 1.25em;
 }
 
 .voting-card__buttons > .icon-button > img {
-  max-width: 1.25rem;
+  max-width: 1.25em;
 }
 
 .voting-card__submit {
   background-color: var(--color-darker-background);
   border: 1px solid var(--color-white);
   color: var(--color-white);
-  height: 3.2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  font-size: 1.25rem;
+  height: 2.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  font-size: 1.25em;
 }
 
 .voting-card__submit:active {
@@ -359,7 +413,8 @@ export default {
   bottom: 0;
   display: flex;
   width: 100%;
-  height: 3rem;
+  height: 3em;
+  font-size: 1.3em;
 }
 
 .voting-gauge__left {
@@ -367,7 +422,7 @@ export default {
   width: 30%;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 1.25rem;
+  padding-left: 1.25em;
   background-color: rgba(var(--color-green-positive), 0.5);
   font-weight: 300;
   text-transform: uppercase;
@@ -378,29 +433,70 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 1.25rem;
+  padding-right: 1.25em;
   width: 50%;
   background-color: rgba(var(--color-yellow-negative), 0.5);
 }
 
 .voting-gauge__icon {
-  max-width: 1.5rem;
+  max-width: 1.5em;
 }
 
 .voting-gauge__number {
   color: var(--color-white);
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: 400;
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
 }
 
+ /* Tablets Size */
 @media all and (min-width: 500px) {
+  .voting-card-list__header {
+    top: 0;
+    align-items: start;
+    width: 100%;
+  }
+
+  .voting-card-list__gradient {
+    width: 76%;
+  }
+  .voting-card-list__title-thumb {
+    top: 0;
+  }
+
+  .voting-card-list__title {
+    top: 10px;
+    position: absolute;
+    left: 150px;
+  }
 }
 
 @media all and (min-width: 768px) {
+  .voting-card {
+    position: relative;
+    height: 350px;
+    width: 350px;
+    min-width: 350px;
+    background-size: cover;
+  }
+  .voting-card-list__gradient {
+    width: 80%;
+  }
+
+  .voting-card-list__content {
+    padding-top: 45px;
+  }
+  
+  .voting-gauge__icon {
+    width: 1.3em;
+  }
+
 }
 
-@media all and (min-width: 1100px) {
+@media all and (min-width: 1100px) { 
+  .voting-card-list__gradient {
+    width: 80%;
+  }
 }
 </style>
