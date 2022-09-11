@@ -11,7 +11,7 @@ The test was developed using:
     > git clone https://github.com/carlosmab/frontend-test.git
     > npm install
     > npm run dev
-
+Browse to http://127.0.0.1:5173/
 
 ## 2. Folder Structure
 
