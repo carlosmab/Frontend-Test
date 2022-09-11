@@ -4,7 +4,7 @@ import { updateFamousPersonVotes } from "../models/famousPeople.model"
 import moment from "moment";
 
 export default {
-  props: ["famousPerson"],
+  props: ["famousPerson", "layout"],
   data() {
     return {
       voted: false,
@@ -82,11 +82,18 @@ export default {
       return !(this.negativeSelected || this.positiveSelected || this.voted);
     },
     backgroundImage() {
+      if (this.layout == "Grid") {
+        return (
+          "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)), url('../assets/img/" +
+          this.famousPerson.picture +
+          "')"
+        )
+      } 
       return (
-        "linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)), url('../assets/img/" +
+        "linear-gradient(to left, rgba(136, 136, 136, 1), rgba(0, 0, 0, 0)), url('../assets/img/" +
         this.famousPerson.picture +
         "')"
-      );
+      )
     },
     relativeTime() {
       return moment(this.famousPerson.lastUpdated).fromNow();
@@ -97,13 +104,20 @@ export default {
         : this.voting
         ? "Waiting..."
         : "Vote Now";
-    }
+    },
+    isGrid() {
+      return this.layout == 'Grid';
+    },
   },
 };
 </script>
 
 <template>
-  <div class="voting-card" :style="{ backgroundImage: backgroundImage }">
+  <div
+    :class="{ 'voting-card': isGrid, 'voting-card-list': !isGrid }"
+    :style="{ backgroundImage: backgroundImage }"
+  >
+    <div v-if="!isGrid" class="voting-card-list__gradient"></div>
     <div class="voting-card__header">
       <div
         v-if="votesPercents.negative < votesPercents.positive"
@@ -198,6 +212,24 @@ export default {
   background-size: cover;
 }
 
+.voting-card-list {
+  position: relative;
+  height: 170px;
+  width: 100%;
+  min-width: 320px;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-size: 267px 267px;
+}
+
+.voting-card-list__gradient {
+  position: absolute;
+  right: 0;
+  height: 170px;
+  width: 76%;
+  background: linear-gradient(to left, rgba(51, 51, 51, 0.6), rgba(102, 102, 102, 1), rgba(136, 136, 136, 1))
+}
+ 
 .voting-card__header {
   position: absolute;
   bottom: 58%;
@@ -246,6 +278,7 @@ export default {
   padding-right: 3rem;
   color: var(--color-white);
   -webkit-box-sizing: border-box;
+  z-index: 10;
 }
 
 .voting-card__description {

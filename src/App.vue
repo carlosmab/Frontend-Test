@@ -16,18 +16,63 @@ export default {
   data() {
     return {
       famousPeople: [],
+      selectedLayout: "List",
+      hideOptions: true,
     };
+  },
+  methods: {
+    toggleLayoutOptions() {
+      this.hideOptions = !this.hideOptions;
+    },
+    changeLayout(type) {
+      this.selectedLayout = type;
+      this.hideOptions = true;
+    },
   },
 };
 </script>
 
 <template>
   <div>
-    <h3 class="previous-rulings__title">Previous Rulings</h3>
-    <div class="previous-rulings__container">
+    <div class="previous-rulings__header">
+      <h3 class="previous-rulings__title">Previous Rulings</h3>
+
+      <div class="previous-rulings__menu">
+        <button
+          class="previous-rulings__menu-button"
+          @click="toggleLayoutOptions"
+        >
+          {{ selectedLayout }}
+        </button>
+        <div
+          class="previous-rulings__menu-options"
+          :class="{ hide_options: hideOptions }"
+        >
+          <button
+            class="previous-rulings__menu-option"
+            @click="changeLayout('Grid')"
+          >
+            Grid
+          </button>
+          <button
+            class="previous-rulings__menu-option"
+            @click="changeLayout('List')"
+          >
+            List
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      :class="{
+        'previous-rulings__container': selectedLayout == 'Grid',
+        'previous-rulings__container-list': selectedLayout == 'List',
+      }"
+    >
       <voting-card-component
         v-for="famousPerson in famousPeople"
         :famousPerson="famousPerson"
+        :layout="selectedLayout"
         :key="famousPerson.id"
         class="card"
       ></voting-card-component>
@@ -36,14 +81,54 @@ export default {
 </template>
 
 <style scoped>
-  .previous-rulings__title {
-    font-size: 24px;
-  }
+.previous-rulings__title {
+  font-size: 24px;
+}
 
-  .previous-rulings__container {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 10px;
-  }
+.previous-rulings__container {
+  display: flex;
+  flex-direction: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+}
+
+.previous-rulings__container-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.previous-rulings__menu-options {
+  display: block;
+  position: absolute;
+  z-index: 10;
+}
+
+.previous-rulings__menu-button,
+.previous-rulings__menu-option {
+  border: 2px solid var(--color-dark-gray);
+  background-color: var(--color-white);
+  width: 120px;
+  height: 2.25rem;
+  text-align: center;
+  font-family: inherit;
+  font-size: 0.7rem;
+  --webkit-appearance: none;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.previous-rulings__menu-option {
+  margin-top: -2px;
+}
+
+.hide_options {
+  display: none;
+}
+
+.previous-rulings__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 </style>
